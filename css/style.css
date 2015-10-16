@@ -13,8 +13,10 @@
   margin: 0 auto;
   border: 1px solid white;
   border-radius: 50%;
+  -moz-transition: all 500ms ease-in-out;
 }
 
 .toggle{
   background: rgba(212,168,60,0.9);
+  -moz-transition: all 500ms ease-in-out;
 }
