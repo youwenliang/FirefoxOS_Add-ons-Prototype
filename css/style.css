@@ -4,35 +4,17 @@
   font-weight: bold;
   background: rgba(60,168,212,0.9);
   position: absolute;
-  height: 30%;
+  width: 60px;
+  height: 60px;
   z-index: 3000;
-  top: 1em;
-  left: 1em;
-  right: 1em;
+  bottom: 1em;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
   border: 1px solid white;
+  border-radius: 50%;
 }
 
-.fxos-banner p, .fxos-banner button {
-  position: absolute;
-}
-
-.fxos-banner p {
-  padding-top: 0.5em;
-  width: 100%;
-  text-align: center;
-  margin: 13% auto;
-  line-height: 2em;
-  color: #fff;
-}
-
-.fxos-banner button {
-  padding-top: 0.5em;
-  font-size: 18px;
-  line-height: 2em;
-  right: 0.6em;
-  border: none;
-  background: none;
-  display: block;
-  cursor: pointer;
-  color: #fff;
+.toggle{
+  background: rgba(212,168,60,0.9);
 }

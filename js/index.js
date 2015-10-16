@@ -12,6 +12,7 @@ else {
 }
 
 function initialize() {
+  window.onload = addListeners;
   if (document.querySelector('.fxos-banner')) {
     // Already injected, abort.
     return;
@@ -19,18 +20,41 @@ function initialize() {
     var body = document.querySelector('body');
     var fxosBanner = document.createElement('div');
     fxosBanner.classList.add('fxos-banner');
-    var bannerText = document.createElement('p');
-    var closeBtn = document.createElement('button');
+    fxosBanner.id = "dxy";
 
-    fxosBanner.appendChild(bannerText);
-    fxosBanner.appendChild(closeBtn);
     body.appendChild(fxosBanner);
-
-    closeBtn.textContent = 'x';
-    bannerText.textContent = 'Add-On Template';
-
-    closeBtn.onclick = function() {
-    	fxosBanner.parentNode.removeChild(fxosBanner);
+      
+	fxosBanner.onclick = function() {
+      if(fxosBanner.classList.contains('toggle')) {
+	    fxosBanner.classList.remove('toggle');
+      }
+      else {
+         fxosBanner.classList.add('toggle');
+      }
     }
   }
+}
+
+window.onload = addListeners();
+
+function addListeners(){
+    document.getElementById('dxy').addEventListener('mousedown', mouseDown, false);
+    window.addEventListener('mouseup', mouseUp, false);
+
+}
+
+function mouseUp()
+{
+    window.removeEventListener('mousemove', divMove, true);
+}
+
+function mouseDown(e){
+  window.addEventListener('mousemove', divMove, true);
+}
+
+function divMove(e){
+    var div = document.getElementById('dxy');
+  div.style.position = 'absolute';
+  div.style.top = e.clientY-30 + 'px';
+  div.style.left = e.clientX-30 + 'px';
 }
