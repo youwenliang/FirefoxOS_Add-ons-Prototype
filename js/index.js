@@ -12,7 +12,6 @@ else {
 }
 
 function initialize() {
-  window.onload = addListeners;
   if (document.querySelector('.fxos-banner')) {
     // Already injected, abort.
     return;
@@ -24,13 +23,13 @@ function initialize() {
 
     body.appendChild(fxosBanner);
       
-	fxosBanner.onclick = function() {
-      if(fxosBanner.classList.contains('toggle')) {
-	    fxosBanner.classList.remove('toggle');
-      }
-      else {
-         fxosBanner.classList.add('toggle');
-      }
+    fxosBanner.onclick = function() {
+        if(fxosBanner.classList.contains('toggle')) {
+          fxosBanner.classList.remove('toggle');
+        }
+        else {
+           fxosBanner.classList.add('toggle');
+        }
     }
   }
 }
