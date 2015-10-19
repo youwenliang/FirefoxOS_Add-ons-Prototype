@@ -41,8 +41,8 @@
       var timerID;
       var touchStartTimeStamp;
         
-      // navigator.mozApps.mgmtz.addEventListener('enabledstatechange',
-      // this._handle_enabledstatechange.bind(this));
+      navigator.mozApps.mgmtz.addEventListener('enabledstatechange',
+      this._handle_enabledstatechange.bind(this));
 
       sprite.addEventListener('touchstart', (evt) => {
         var touches = evt.changedTouches;

@@ -9,7 +9,7 @@
   function FxosBanner(stage) {
     this._stage = stage;
     this._sprite = document.createElement('div');
-    this._init();
+	  this._init();
   }
     
   FxosBanner.prototype = {
@@ -65,8 +65,8 @@
       sprite.addEventListener('touchend', () => {
         sprite.style.backgroundColor = 'rgba(60,168,212,0.9)';
         if (moved) {
-          //sprite.style.top = touchPosition.y + 'px';
-          //sprite.style.left = touchPosition.x + 'px';
+          sprite.style.top = touchPosition.y + 'px';
+          sprite.style.left = touchPosition.x + 'px';
           return;
         }
         var time = new Date() - touchStartTimeStamp;
@@ -95,7 +95,7 @@
         var spriteTop = sprite.offsetTop - diffY;
         var spriteLeft = sprite.offsetLeft - diffX;
         sprite.style.bottom = null;
-        //sprite.textContent = spriteTop+"-"+spriteLeft;
+        sprite.textContent = spriteTop+"-"+spriteLeft;
 
         if(spriteTop < 0) spriteTop = 0;
         if(spriteTop > screen.height-BUTTON_WIDTH) spriteTop = screen.height-BUTTON_WIDTH;
