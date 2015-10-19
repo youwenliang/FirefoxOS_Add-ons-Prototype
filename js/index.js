@@ -45,6 +45,9 @@
       // this._handle_enabledstatechange.bind(this));
 
       sprite.addEventListener('touchstart', (evt) => {
+        count++;
+        var number = document.getElementById('count');
+        number.textContent = count;
         var touches = evt.changedTouches;
         touchPosition = {
           'x': touches[0].pageX,
