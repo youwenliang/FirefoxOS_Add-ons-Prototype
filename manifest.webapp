@@ -1,0 +1,22 @@
+{
+  "name": "FxOS Add-On Prototype",
+  "description": "FirefoxOS Add-On Prototyping",
+  "author": "Mark Liang <mliang@mozilla.com>",
+  "developer": {
+  	"name": "Mark Liang"
+  },
+  "role": "addon",
+  "type": "certified",
+  "customizations": [{
+    "filter": "app://system.gaiamobile.org",
+    "css": [
+      "css/style.css"
+    ],
+    "scripts": [
+      "js/index.js"
+    ]
+  }],
+  "icons": {
+      "128": "/icons/icon-128.png"
+  }
+}

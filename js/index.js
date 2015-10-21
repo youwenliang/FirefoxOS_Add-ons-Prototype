@@ -45,9 +45,7 @@
       // this._handle_enabledstatechange.bind(this));
 
       sprite.addEventListener('touchstart', (evt) => {
-        count++;
-        var number = document.getElementById('count');
-        number.textContent = count;
+
         var touches = evt.changedTouches;
         touchPosition = {
           'x': touches[0].pageX,
@@ -124,11 +122,17 @@
   }
   function init() {
     var body = document.querySelector('body');
-    var number = document.createElement('p');
-    number.id = 'count';
-    number.textContent = count;
-    body.appendChild(number);
+//     var number = document.createElement('p');
+//     number.id = 'count';
+//     number.textContent = count;
+//     body.appendChild(number);
     fxosBanner = new FxosBanner(body);
+//     number.addEventListener('click', function(e){
+//       count++;
+//       e.target.textContent = count;
+//       e.target.style.opacity = 0;
+//       //TweenLite.to(e.target, .5, {opacity: 0});
+//     });
   }
 }(window));
 

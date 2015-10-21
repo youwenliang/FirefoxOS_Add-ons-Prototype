@@ -34,3 +34,8 @@ div#fxos-banner {
   top: 0;
   left: 0;
 }
+
+p {
+  -moz-transition-duration: 500ms;
+  -moz-transition-timing-function: : ease-in-out;
+}
