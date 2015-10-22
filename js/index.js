@@ -1,138 +1,78 @@
-
-(function(exports) {
-  var MOVE_THRESHOLD = 5;
-  var CLICK_INTERVAL = 250;
-  var HOLD_INTERVAL = 350;
-  var BUTTON_WIDTH = 60;
-  var count = 0;
-  //Declare Object
-  function FxosBanner(stage) {
-    this._stage = stage;
-    this._sprite = document.createElement('div');
-    this._init();
-  }
+(function() {
+    function FloatButton(stage){
+    this.stage = stage;
+        this.button = document.createElement("div");
+        this.container = document.createElement("div");
+        this.init();
+    }
     
-  FxosBanner.prototype = {
-    _stage: null,
-    _sprite: null,
-
-    _init: function() {
-      this._render();
-      this._registerEvents();
-    },
-    _render: function() {
-      var sprite = this._sprite;
-      this._stage.appendChild(sprite);
-      sprite.id = 'fxos-banner';
-      var left = (screen.width / 2) - 30;
-      var style = `
-        position: fixed;
-        left: ${left}px;
-        bottom: 0;
-        z-index: 2147483647;
-      `;
-      sprite.setAttribute('style', style);
-      sprite.setAttribute('data-z-index-level', 'fullscreen-layout-software-home-button');
-    },
-    _registerEvents: function() {
-      var sprite = this._sprite;
-      var touchPosition;
-      var moved = false;
-      var timerID;
-      var touchStartTimeStamp;
+    var CLICK_INTERVAL = 250;
+  	var HOLD_INTERVAL = 350;
+	var MOVE_THRESHOLD = 5;
+    
+    FloatButton.prototype = {
+        container: null,
+        button: null,
         
-      // navigator.mozApps.mgmtz.addEventListener('enabledstatechange',
-      // this._handle_enabledstatechange.bind(this));
+        init: function(){
+            this.render();
+            this.registerEvents();
+        },
+        
+        render: function(){
+            var button = this.button;
+          	var container = this.container;
+          	button.id = "button";
+      		button.className = "circle";
+            container.className = "container";
+          	container.appendChild(button);
+            this.stage.appendChild(container);
+        },
+        registerEvents: function(){
+        	var button = this.button;
+            var timerID;
+            var touchStartTimeStamp;
+            var touchPosition;
+            var moved = false;
+            var longPressed = false;
+            
+            button.addEventListener('touchstart', (evt) => {
+                longPressed = false;
+                touchStartTimeStamp = new Date();
+                evt.target.className += " move";
+                timerID = setTimeout(() => {
+                  if (! moved) {
+                      navigator.vibrate(50);
+                      evt.target.className += " hovering";
+                      longPressed = true;
+                  }
+                }, HOLD_INTERVAL);
+            });
+            button.addEventListener('touchend', (evt) => {
+                var time = new Date() - touchStartTimeStamp;
+ 				  evt.target.className = "circle";               
+                  clearTimeout(timerID);
+                  timerID = -1;
+                
+            });
+      	}
+    }
 
-      sprite.addEventListener('touchstart', (evt) => {
-
-        var touches = evt.changedTouches;
-        touchPosition = {
-          'x': touches[0].pageX,
-          'y': touches[0].pageY
-        };
-        sprite.style.backgroundColor = 'rgba(212,168,60,0.9)';
-        moved = false;
-
-        touchStartTimeStamp = new Date();
-        timerID = setTimeout(() => {
-          if(!moved) {
-            window.navigator.vibrate(50);
-            window.dispatchEvent(new CustomEvent('holdhome'));
-          }
-        }, HOLD_INTERVAL);
-        evt.preventDefault();
-      });
-      sprite.addEventListener('touchend', () => {
-        sprite.style.backgroundColor = 'rgba(60,168,212,0.9)';
-        if (moved) {
-          //sprite.style.top = touchPosition.y + 'px';
-          //sprite.style.left = touchPosition.x + 'px';
-          return;
-        }
-        var time = new Date() - touchStartTimeStamp;
-        if(time < CLICK_INTERVAL){
-          navigator.vibrate(50);
-          window.dispatchEvent(new CustomEvent('home'));
-        }
-        if (time < HOLD_INTERVAL) {
-          clearTimeout(timerID);
-          timerID = -1;
-        }
-      });
-      sprite.addEventListener('touchmove', function(evt) {
-        var touches = evt.changedTouches;
-        var diffX = touchPosition.x - touches[0].pageX
-        var diffY = touchPosition.y - touches[0].pageY
-        if (Math.abs(diffX) <= MOVE_THRESHOLD &&
-            Math.abs(diffY) <= MOVE_THRESHOLD) {
-          return;
-        }
-        touchPosition = {
-          'x': touches[0].pageX,
-          'y': touches[0].pageY
-        };
-        moved = true;
-        var spriteTop = sprite.offsetTop - diffY;
-        var spriteLeft = sprite.offsetLeft - diffX;
-        sprite.style.bottom = null;
-        //sprite.textContent = spriteTop+"-"+spriteLeft;
-
-        if(spriteTop < 0) spriteTop = 0;
-        if(spriteTop > screen.height-BUTTON_WIDTH) spriteTop = screen.height-BUTTON_WIDTH;
-
-        if(spriteLeft < 0) spriteLeft = 0;
-        if(spriteLeft > screen.width-BUTTON_WIDTH) spriteLeft = screen.width-BUTTON_WIDTH;
-
-        sprite.style.top = spriteTop + 'px';
-        sprite.style.left = spriteLeft + 'px';
-        evt.preventDefault();
+    
+  // If injecting into an app that was already running at the time
+  // the app was enabled, simply initialize it.  
+    var floatButton;
+      //Initialize HTML
+    if (document.readyState !== 'loading') {
+      init();
+    } else {
+      document.addEventListener('readystatechange', function() {
+        document.readyState === 'interactive' && init();
       });
     }
-  }
-  
-  //Initialize HTML
-  var fxosBanner;
-  if (document.readyState !== 'loading') {
-    init();
-  } else {
-    document.addEventListener('readystatechange', function() {
-      document.readyState === 'interactive' && init();
-    });
-  }
-  function init() {
-    var body = document.querySelector('body');
-//     var number = document.createElement('p');
-//     number.id = 'count';
-//     number.textContent = count;
-//     body.appendChild(number);
-    fxosBanner = new FxosBanner(body);
-//     number.addEventListener('click', function(e){
-//       count++;
-//       e.target.textContent = count;
-//       e.target.style.opacity = 0;
-//       //TweenLite.to(e.target, .5, {opacity: 0});
-//     });
-  }
-}(window));
 
+    function init() {
+        var body = document.querySelector('body');
+        floatButton = new FloatButton(body);
+    }
+})(window);
