@@ -201,18 +201,19 @@
                  var dist = Math.sqrt(Math.pow(xpos-_x,2)+Math.pow(ypos-_y,2));
                  
                  if(dist < 39 && !mouseover) {
-                     mouseover = true;
                      console.log("mouseover");
                      if(stage == 1){
+                                              mouseover = true;
                      	document.getElementById(item.id).className +=' hovering';
                         document.getElementById(item.id).style.transform += " scale3d(1.3,1.3,1.3)";
                         currentId = item.id;
                  	}
                  }
                  else if(dist > 39 && mouseover) {
-                     mouseover = false;
+
                      console.log("mouseout");
                      if(stage == 1){
+                                              mouseover = false;
                      	document.getElementById(item.id).className = document.getElementById(item.id).className.split('hover')[0];
                         document.getElementById(item.id).style.transform = document.getElementById(item.id).style.transform.split('scale')[0];
                         currentId = -1;
@@ -227,7 +228,7 @@
                      setTimeout(function(){
                          document.getElementById(currentId).className = document.getElementById(currentId).className.split('hover')[0];
                          document.getElementById(currentId).style.transform = document.getElementById(currentId).style.transform.split('scale')[0];
-                        currentId = -1;
+                         currentId = -1;
                          mouseover = false;
                      },100);
                  }
