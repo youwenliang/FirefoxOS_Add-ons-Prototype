@@ -1,7 +1,9 @@
 .container{
     position: absolute;
-    top: 0px;
-    left: 0px;
+    top: 300px;
+    left: -30px;
+    transition: all 400ms ease-in-out;
+    z-index: 2147483647;
 }
 
 .circle{
@@ -26,39 +28,49 @@
     transition: all 400ms ease-in-out;
     margin: 0;
     transition-delay: 0ms;
-    opacity: 0;
+    opacity: 1;
 }
 
 .hovering{
     background-color: #fcb030;
     transition: all 400ms ease-in-out;
-    transform: scale(1.3);
+    transform: scale3d(1.3,1.3,1.3);
     transition-delay: 0ms !important;
+    backface-visibility: hidden;
+    perspective: 1000;
 }
 
 .move{
-    margin-left: 39px;
-    opacity: 1;
+    left: 9px;
+    transition: all 400ms ease-in-out
 }
 
 .scale{
     opacity: 1 !important;
-    transform: scale(5);
+    transform: scale3d(6,6,6);
+    backface-visibility: hidden;
+    perspective: 1000;
 }
 
-#top.position{
-    margin-top: -145px;
+.open #top{
+    transform: translate3d(0,-175px,0);
     transition-delay: 250ms;
+    backface-visibility: hidden;
+    perspective: 1000;
 }
 
-#back.position{
-    margin-left: 183px;
+.open #back{
+    transform: translate3d(175px,0,0);
     transition-delay: 350ms;
+    backface-visibility: hidden;
+    perspective: 1000;
 }
 
-#home.position{
-    margin-top: 145px;
+.open #home{
+    transform: translate3d(0,175px,0);
     transition-delay: 450ms;
+    backface-visibility: hidden;
+    perspective: 1000;
 }
 
 .reset{
