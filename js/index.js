@@ -233,7 +233,9 @@
                 if(dist < 39 && !mouseover) {
                     if(stage == 1){
                         mouseover = true;
+                        document.getElementById("description").style.opacity = 1;
                         document.getElementById("description").textContent = item.id;
+                        
                        	document.getElementById(item.id).className +=' hovering';
                         document.getElementById(item.id).style.transform += " scale3d(1.3,1.3,1.3)";
                         currentId = item.id;
@@ -242,7 +244,7 @@
                 else if(dist > 39 && mouseover) {
                     if(stage == 1){
                         mouseover = false;
-                        document.getElementById("description").textContent = "";
+                        document.getElementById("description").style.opacity = 0;
                   	    document.getElementById(item.id).className = document.getElementById(item.id).className.split('hover')[0];
                         document.getElementById(item.id).style.transform = document.getElementById(item.id).style.transform.split('scale')[0];
                         currentId = -1;

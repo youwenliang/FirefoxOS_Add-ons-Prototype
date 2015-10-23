@@ -99,5 +99,7 @@
     text-transform: capitalize;
     font-style: italic;
     font-weight: 400;
+    opacity: 0;
+    transition: all 200ms ease-in-out;
 }
 }
