@@ -4,6 +4,7 @@
         this.button = document.createElement("div");
         this.container = document.createElement("div");
         this.background = document.createElement("div");
+        this.description = document.createElement("p");
         this.init();
     }
     
@@ -26,6 +27,7 @@
         container: null,
         button: null,
         background: null,
+        description: null,
         
         init: function(){
             this.render();
@@ -36,6 +38,8 @@
             var button = this.button;
           	var container = this.container;
             var background = this.background;
+            var description = this.description;
+            
             
           	button.id = "button";
       		button.className = "circle";
@@ -43,7 +47,9 @@
             background.className = "circle background";
             container.className = "container origin";
             
-             
+            description.id = "description";
+            description.className = "description";
+            description.textContent = "";
             
             container.appendChild(background);
             this.stage.appendChild(container);
@@ -60,6 +66,7 @@
 
             menu.render();
            	container.appendChild(button);
+           	container.appendChild(description);
         },
         registerEvents: function(){
         	var button = this.button;
@@ -229,6 +236,7 @@
                      console.log("mouseover");
                      if(stage == 1){
                                               mouseover = true;
+                        document.getElementById("description").textContent = item.id;
                      	document.getElementById(item.id).className +=' hovering';
                         document.getElementById(item.id).style.transform += " scale3d(1.3,1.3,1.3)";
                         currentId = item.id;
@@ -239,6 +247,7 @@
                      console.log("mouseout");
                      if(stage == 1){
                                               mouseover = false;
+                         document.getElementById("description").textContent = "";
                      	document.getElementById(item.id).className = document.getElementById(item.id).className.split('hover')[0];
                         document.getElementById(item.id).style.transform = document.getElementById(item.id).style.transform.split('scale')[0];
                         currentId = -1;
@@ -251,6 +260,7 @@
                      navigator.vibrate(50);
                      window.dispatchEvent(new CustomEvent(currentId));
                      setTimeout(function(){
+                         document.getElementById("description").textContent = "";
                          document.getElementById(currentId).className = document.getElementById(currentId).className.split('hover')[0];
                          document.getElementById(currentId).style.transform = document.getElementById(currentId).style.transform.split('scale')[0];
                          currentId = -1;
