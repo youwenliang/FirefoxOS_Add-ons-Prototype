@@ -58,14 +58,12 @@
             button.innerHTML = '<img src="' + ICONS["menu"] + '">';
 
             this.menu = new MenuOptions(container);
-	          var menu = this.menu;
+	        var menu = this.menu;
             menu.addItem('top', '');
-            menu.addItem('favorite', '');
             menu.addItem('back', '');
-            menu.addItem('share', '');
             menu.addItem('home', '');
-
             menu.render();
+            
            	container.appendChild(button);
            	container.appendChild(description);
         },
@@ -81,11 +79,46 @@
             
             //Touch Start
             button.addEventListener('touchstart', (evt) => {
+                
+                var debug = document.getElementById('debuggingtext');
+                var app = window.wrappedJSObject.StackManager.getCurrent();
+
+                if(app != null) {
+                    debug.textContent = app[Object.keys(app)[0]].split('app://')[1].split('.')[0];
+                } else debug.textContent = "home";
+                
+                //Re-render Menu
+//              	var container = this.container;
+//                 this.menu = new MenuOptions(container);
+//                 var menu = this.menu;
+                
+//                 if(debug.textContent == "home"){
+//                     menu.addItem('top', '');
+//                     menu.addItem('back', '');
+//                     menu.addItem('home', '');
+//                 }
+//                 else if(debug.textContent == "settings"){
+//                     menu.addItem('top', '');
+//                     menu.addItem('favorite', '');
+//                     menu.addItem('back', '');
+//                     menu.addItem('home', '');
+//                 }
+//                 else if(debug.textContent == "clock"){
+//                     menu.addItem('top', '');
+//                     menu.addItem('favorite', '');
+//                     menu.addItem('back', '');
+//                     menu.addItem('share', '');
+//                     menu.addItem('home', '');
+//                 }
+
+//                 menu.render();
+                
+                
                 longPressed = false;
                 touchStartTimeStamp = new Date();
                 evt.target.className += " hovering";
                 this.container.classList.add('move');
-                button.innerHTML = '<img src="' + ICONS["close"] + '">';
+                button.innerHTML = '<img src="' + ICONS["close"] + '">';                
                 
                 timerID = setTimeout(() => {
                   if (! moved) {
@@ -108,6 +141,10 @@
                 this.menu.close();
                 stage = 0;
                 button.innerHTML = '<img src="' + ICONS["menu"] + '">';
+                
+                var debug = document.getElementById('debuggingtext');
+                debug.textContent = "Debugging";
+
                 
                 clearTimeout(timerID);
                 timerID = -1;
@@ -294,6 +331,9 @@
     function init() {
         var body = document.querySelector('body');
         floatButton = new FloatButton(body);
-        
+        var debugging = document.createElement('p');
+        debugging.id = "debuggingtext";
+        debugging.textContent = "Debugging";
+        body.appendChild(debugging);
     }
 })(window);
