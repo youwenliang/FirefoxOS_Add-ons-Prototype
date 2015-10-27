@@ -18,6 +18,11 @@
     background-color: #6fcbd4;
     opacity: 0;
 }
+
+#button{
+    z-index: 3000;
+}
+
 .circle-item{
     position: absolute;
     width: 60px;
