@@ -2,7 +2,7 @@
     //Global Variables
     var CLICK_INTERVAL = 250;
   	var HOLD_INTERVAL = 350;
-	  var MOVE_THRESHOLD = 5;
+	var MOVE_THRESHOLD = 5;
     var ICONS = {
       "menu":     'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAA8CAYAAAA6/NlyAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAONJREFUeNrs2cENwjAMheEEcYcN6CiMEiYhI7ABHaWjwAbdILhS7tiHSI78W/Kth3xKG7+2ubWWItUpBSvAgAEDBgwYMGDAgAEDVtXZeH2RXpwZPtLrCHCVfjrduKWv729lwweAXfriFPzV3nmWZ3iPdmhVxw712rLxm9a9t6faeg8BM4cBAwYM2HOWnn4spWMsKbs2v1W1DsscPt5KbpGydLhDa3XsUK+NLM0tDRgwYMBk6TnGUpF+O924hzZ8kKUnrWu0LP0aFS1LmvxnGlkaMGDAgAEDBgwYMGDAgAFL/QQYAE6RFZclzfQUAAAAAElFTkSuQmCC',
       "close":    'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAA8CAYAAAA6/NlyAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAT1JREFUeNrs2kEKgzAQBVDjWrBH8QKCRy/0Ah4lgvuphRSyaJOqfyYpfmHoopLmkTTJt3Ui0lzpapuLXQQTTDDBBBNMMMEEE0wwwQRrgSUqv9UA7N8Q2ow/o6oR7re6g9BDaKuvfUoj0CpYFHgBo1PYpQbwBETnsNP5FUcEUcNWXj5fPrxv0Ua2UOCzHTbBosFHO26G1QDvBZhiX+WUHsT/uvjk7pnRHXOKvzyk0Gt47Syx2uAjBwhVrEV4mBP7tDnWYoTjkX58mcLvKT5qYxkPlb/HXeKeDpiyioL3LFq9BbothF2jrckU3RbALmGBGhWipVla+pujJcMD4yEfAKh2VB2NOFp6cMTLrfC30mdpUQgCKbSrbR9GpJ49KasoGBnxVNCO/7UkmGCCCSaYYIIJJphgggkm+ILgpwADADMCLTTGdtXoAAAAAElFTkSuQmCC', 
@@ -11,6 +11,11 @@
       "top":      'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAA8CAYAAAA6/NlyAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAATBJREFUeNrs2E0OgjAQhuHSuJcjcAQuYMLRvAI3YumSI3CEkrivbVISF4gJ1JlG3km+lT/4pHY6UHnvzZnKmpMVYMCAAQMGDBgwYMCAAQNeq8vBz7ch95Ba6Pe6dL1x7xdUBx4AROQUchVepDmkSXjRv3SrgDXpmq3GHnaKW9FpgOM+6hWwvdYeXqpJkagpxWiCOYcBAwb8t+A4MDzeuu14ZIgovUtH2LAyncVRsTtytpa4wp+wy6g4SK20VcaKo20BWFG0VcI+U8TRVgEbm9QtZRZHxy6dOW2I8+vl0ut73pslmlgVtDZWHF0CVhRdClYMnWO0dBvdeM/I+K3D19rHUk7s8qys2ziyijuHc9wMbKGLAue88/kJmod4gAEDBgwYMGDAgAEDBgwY8AnqJcAASVYRkaPGrSQAAAAASUVORK5CYII=',
       "favorite": 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAA8CAYAAAA6/NlyAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAexJREFUeNrsmjFPwkAUxwuSyGY/gANuJDJ0Y+nQ2YHNL8Hkx3BwIE5+DgfDZEz0AzhoUl10cCXBDQK1/i95JAQrNOTduyu8S35Jk14f9+u/XO8ItTzPg31q9WDPmgqrsAqrsAqrsAqrsAqrcMWFh4R4qznYLbXABx2fgM9dT/jmn+OdTHg53cBFynWH6TpJWTLhonTFU5ZM+HrLc5VMeF26oilLJXzF1KcSCZdJVyzluifpiqXMlXAEQpCADmiDY3AE5qBRss6i7zf4Ail4AQ9gDJ5dCF+AeEVqQgNtWApmTjRXbsYTGNgWNnf81JPNzys9UVa/wybdd5A5FM1oDLHEpGW+S13w6Eg6o8/u0lhEJ61bcAYOBGXvQM/Va6lHA8iqIMv1HpaQZpHlXHjYlGaT5V5p2ZBmlbWxtFxIczVWWVtr6XtPa1kTjj2tZU2442kta/ths5E4ZKo1pQ2DtwmHjLIB1Qp9Fo4oYc6nJfJdeNMjaPa1b8R8Q9+m78LrZtUfMALn9ONBm45HdE5mpjaTFiNp/rfNwBj011zXpz6zgutTzjFyC6+KTjaIFolPCsS9FG4tDXAKLkG4RZ2Qrp0u1Wv5KJxQOoMtRYvEB1Qz4RpnTf8+rMIqrMIqrMIqrMIqrMIqrMJl2q8AAwDTp2kGA8ahVwAAAABJRU5ErkJggg==',
       "share":    'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAA8CAYAAAA6/NlyAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAfZJREFUeNrsmj1Ow0AQhW3kPuYEuKBEwogCOnKEtFSYG+QIoaA3N3Bu4CMYLgCWKCg3VJSmR1pmpbGwIgL7Z3s3npFeY3mdfJrJ7ptxQs55MKU4CCYWBEzABEzABEzABEzABEzAEwBOQAWIgUSH8wJagWKjp4puyUFloIb/HgyU6j47dLA9TDCbsz/uqUHpvpT08h9YEaegbF+ALxUqwWvgdpO66PNDIkdAxe57M8SHRR6Dlr4A28joA+7kTp/DCajg8vGx43pu8j0iBzO6xvsZnrULvN5gGTNXnZZKRoWrWuGaXivNRoYzzELrcZ9Ax6BribWfoBzVDLGBmFhLAVih61GNwUFt7NKlBuxooKbAooSvfAI1BZbtVL5A9y6AmgLLGvcajxjvJx6yZ+E5NgSp78CVwr3CcDzjmsXoxAaHeMn1guEIZ5Txkcni2AC6667iIYFtzLTmWKop/rZfQSd4bSb5jK5/dtZpyTixpeSMqo1HBK86x583zcP22JUplPs76K2P9nDoTWMOqrh55L7NpW1MPc50ph5jTS0ZtpWHoDv02jp+3rsxbRP8vC+6BW1cdVp9RIGlXk8FWNW2ah1P9DLNgWBoVnZtZJtA80WaqxnePrqEdT3CrJamw4SQ/j5MwARMwARMwARMwARMwARMwDLxLcAA1iC2eHLL98cAAAAASUVORK5CYII='
+    };
+    var OPTIONS = {
+        "init": ["top", "back", "home"],
+        "home": ["top", "back", "home"],
+        "settings": ["top", "favorite", "back", "share", "home"]
     };
     
     var stage = 0;
@@ -32,42 +37,40 @@
         description: null,
         
         init: function(){
-            this.render();
+            this.render("init");
             this.registerEvents();
         },
         
-        render: function(){
+        render: function(opt){
             var button = this.button;
-          	var container = this.container;
+            var container = this.container;
             var background = this.background;
             var description = this.description;
-            
-          	button.id = "button";
-        		button.className = "circle";
-            background.id = "background";
-            background.className = "circle background";
-            container.className = "container origin";
-            
-            description.id = "description";
-            description.className = "description";
-            description.textContent = "";
-            
-            container.appendChild(background);
-            this.stage.appendChild(container);
-            
-            button.innerHTML = '<img src="' + ICONS["menu"] + '">';
 
+            if(opt == "init"){
+                button.id = "button";
+                button.className = "circle";
+                background.id = "background";
+                background.className = "circle background";
+                container.className = "container origin";
+
+                description.id = "description";
+                description.className = "description";
+                description.textContent = "";
+
+                container.appendChild(background);
+                this.stage.appendChild(container);
+            
+                button.innerHTML = '<img src="' + ICONS["menu"] + '">';
+               	container.appendChild(button);
+              	container.appendChild(description);
+            }
             this.menu = new MenuOptions(container);
-	          var menu = this.menu;
-            menu.addItem('top', '');
-            menu.addItem('favorite', '');
-            menu.addItem('back', '');
-            menu.addItem('share', '');
-            menu.addItem('home', '');
-
+            var menu = this.menu;
+            for (var i = 0; i < OPTIONS[opt].length; i++){
+                menu.addItem(OPTIONS[opt][i], '');
+            }
             menu.render();
-           	container.appendChild(button);
-           	container.appendChild(description);
         },
         registerEvents: function(){
             var button = this.button;
@@ -86,6 +89,8 @@
                 evt.target.className += " hovering";
                 this.container.classList.add('move');
                 button.innerHTML = '<img src="' + ICONS["close"] + '">';
+                
+                var app = window.wrappedJSObject.StackManager.getCurrent();
                 
                 timerID = setTimeout(() => {
                   if (! moved) {
