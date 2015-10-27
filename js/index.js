@@ -13,9 +13,11 @@
       "share":    'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAA8CAYAAAA6/NlyAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAfZJREFUeNrsmj1Ow0AQhW3kPuYEuKBEwogCOnKEtFSYG+QIoaA3N3Bu4CMYLgCWKCg3VJSmR1pmpbGwIgL7Z3s3npFeY3mdfJrJ7ptxQs55MKU4CCYWBEzABEzABEzABEzABEzAEwBOQAWIgUSH8wJagWKjp4puyUFloIb/HgyU6j47dLA9TDCbsz/uqUHpvpT08h9YEaegbF+ALxUqwWvgdpO66PNDIkdAxe57M8SHRR6Dlr4A28joA+7kTp/DCajg8vGx43pu8j0iBzO6xvsZnrULvN5gGTNXnZZKRoWrWuGaXivNRoYzzELrcZ9Ax6BribWfoBzVDLGBmFhLAVih61GNwUFt7NKlBuxooKbAooSvfAI1BZbtVL5A9y6AmgLLGvcajxjvJx6yZ+E5NgSp78CVwr3CcDzjmsXoxAaHeMn1guEIZ5Txkcni2AC6667iIYFtzLTmWKop/rZfQSd4bSb5jK5/dtZpyTixpeSMqo1HBK86x583zcP22JUplPs76K2P9nDoTWMOqrh55L7NpW1MPc50ph5jTS0ZtpWHoDv02jp+3rsxbRP8vC+6BW1cdVp9RIGlXk8FWNW2ah1P9DLNgWBoVnZtZJtA80WaqxnePrqEdT3CrJamw4SQ/j5MwARMwARMwARMwARMwARMwDLxLcAA1iC2eHLL98cAAAAASUVORK5CYII='
     };
     var OPTIONS = {
-        "init": ["top", "back", "home"],
         "home": ["top", "back", "home"],
-        "settings": ["top", "favorite", "back", "share", "home"]
+        "settings": ["top", "favorite", "back", "share", "home"],
+        "calendar": ["favorite", "back", "share", "home"],
+        "clock": ["top", "share", "home"],
+        "camera": ["top", "favorite", "back"]
     };
     
     var stage = 0;
@@ -37,7 +39,7 @@
         description: null,
         
         init: function(){
-            this.render("init");
+            this.render("home");
             this.registerEvents();
         },
         
@@ -47,7 +49,6 @@
             var background = this.background;
             var description = this.description;
 
-            if(opt == "init"){
                 button.id = "button";
                 button.className = "circle";
                 background.id = "background";
@@ -64,7 +65,7 @@
                 button.innerHTML = '<img src="' + ICONS["menu"] + '">';
                	container.appendChild(button);
               	container.appendChild(description);
-            }
+
             this.menu = new MenuOptions(container);
             var menu = this.menu;
             for (var i = 0; i < OPTIONS[opt].length; i++){
@@ -91,6 +92,20 @@
                 button.innerHTML = '<img src="' + ICONS["close"] + '">';
                 
                 var app = window.wrappedJSObject.StackManager.getCurrent();
+                var opt = "";
+                if(app == null) opt = "home";
+                else {
+                    opt = app[Object.keys(app)[0]].split('app://')[1].split('.')[0];
+                    if(OPTIONS[opt].length == 0) opt = "home";
+                }
+                
+                this.menu.removeItemAll();
+                this.menu = new MenuOptions(this.container);
+                for (var i = 0; i < OPTIONS[opt].length; i++){
+                    this.menu.addItem(OPTIONS[opt][i], '');
+                }
+                console.log(this.menu);
+                this.menu.render();
                 
                 timerID = setTimeout(() => {
                   if (! moved) {
@@ -174,6 +189,18 @@
                   break;
                 }
             }
+        },
+        removeItemAll: function() {
+            this.items = [];
+            var elements = document.getElementsByClassName('circle-item');
+            while(elements.length > 0){
+                elements[0].parentNode.removeChild(elements[0]);
+            }
+            this.startAngle = 0;
+            this.addAngle = 0;
+            this.renderIndex = 0;
+            this._xpos = [];
+            this._ypos = [];
         },
         render: function(){
             this.renderedCount = this.items.length;
