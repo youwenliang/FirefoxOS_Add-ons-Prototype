@@ -32,18 +32,19 @@
         description: null,
         
         init: function(){
-            this.render();
+            this.render("home");
             this.registerEvents();
         },
         
-        render: function(){
+        render: function(opt){
+            this.removeAll();
             var button = this.button;
           	var container = this.container;
             var background = this.background;
             var description = this.description;
             
           	button.id = "button";
-        		button.className = "circle";
+        	button.className = "circle";
             background.id = "background";
             background.className = "circle background";
             container.className = "container origin";
@@ -56,16 +57,34 @@
             this.stage.appendChild(container);
             
             button.innerHTML = '<img src="' + ICONS["menu"] + '">';
-
-            this.menu = new MenuOptions(container);
-	        var menu = this.menu;
-            menu.addItem('top', '');
-            menu.addItem('back', '');
-            menu.addItem('home', '');
-            menu.render();
             
            	container.appendChild(button);
            	container.appendChild(description);
+        },
+        renderMenu: function(opt){
+            var container = this.container;
+            this.menu = new MenuOptions(container);
+	        var menu = this.menu;
+            
+            if(opt == "settings"){
+                menu.addItem('top', '');
+                menu.addItem('favorite', '');
+                menu.addItem('back', '');
+                menu.addItem('share', '');
+                menu.addItem('home', '');
+            }
+            else {
+                menu.addItem('top', '');
+                menu.addItem('back', '');
+                menu.addItem('home', '');
+            }
+            menu.render();
+        },
+        removeAll: function(){
+            var elements = document.getElementsByClassName('circle-item');
+            while(elements.length > 0){
+                elements[0].parentNode.removeChild(elements[0]);
+            }
         },
         registerEvents: function(){
             var button = this.button;
@@ -87,31 +106,7 @@
                     debug.textContent = app[Object.keys(app)[0]].split('app://')[1].split('.')[0];
                 } else debug.textContent = "home";
                 
-                //Re-render Menu
-//              	var container = this.container;
-//                 this.menu = new MenuOptions(container);
-//                 var menu = this.menu;
-                
-//                 if(debug.textContent == "home"){
-//                     menu.addItem('top', '');
-//                     menu.addItem('back', '');
-//                     menu.addItem('home', '');
-//                 }
-//                 else if(debug.textContent == "settings"){
-//                     menu.addItem('top', '');
-//                     menu.addItem('favorite', '');
-//                     menu.addItem('back', '');
-//                     menu.addItem('home', '');
-//                 }
-//                 else if(debug.textContent == "clock"){
-//                     menu.addItem('top', '');
-//                     menu.addItem('favorite', '');
-//                     menu.addItem('back', '');
-//                     menu.addItem('share', '');
-//                     menu.addItem('home', '');
-//                 }
-
-//                 menu.render();
+                this.renderMenu(debug.textContent);
                 
                 
                 longPressed = false;
@@ -145,7 +140,7 @@
                 var debug = document.getElementById('debuggingtext');
                 debug.textContent = "Debugging";
 
-                
+                this.removeAll();
                 clearTimeout(timerID);
                 timerID = -1;
             });
