@@ -13,12 +13,32 @@
       "share":    'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAA8CAYAAAA6/NlyAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAfZJREFUeNrsmj1Ow0AQhW3kPuYEuKBEwogCOnKEtFSYG+QIoaA3N3Bu4CMYLgCWKCg3VJSmR1pmpbGwIgL7Z3s3npFeY3mdfJrJ7ptxQs55MKU4CCYWBEzABEzABEzABEzABEzAEwBOQAWIgUSH8wJagWKjp4puyUFloIb/HgyU6j47dLA9TDCbsz/uqUHpvpT08h9YEaegbF+ALxUqwWvgdpO66PNDIkdAxe57M8SHRR6Dlr4A28joA+7kTp/DCajg8vGx43pu8j0iBzO6xvsZnrULvN5gGTNXnZZKRoWrWuGaXivNRoYzzELrcZ9Ax6BribWfoBzVDLGBmFhLAVih61GNwUFt7NKlBuxooKbAooSvfAI1BZbtVL5A9y6AmgLLGvcajxjvJx6yZ+E5NgSp78CVwr3CcDzjmsXoxAaHeMn1guEIZ5Txkcni2AC6667iIYFtzLTmWKop/rZfQSd4bSb5jK5/dtZpyTixpeSMqo1HBK86x583zcP22JUplPs76K2P9nDoTWMOqrh55L7NpW1MPc50ph5jTS0ZtpWHoDv02jp+3rsxbRP8vC+6BW1cdVp9RIGlXk8FWNW2ah1P9DLNgWBoVnZtZJtA80WaqxnePrqEdT3CrJamw4SQ/j5MwARMwARMwARMwARMwARMwDLxLcAA1iC2eHLL98cAAAAASUVORK5CYII='
     };
     var OPTIONS = {
-        "home": ["top", "back", "home"],
+        "home":     ["top", "back", "home"],
         "settings": ["top", "favorite", "back", "share", "home"],
         "calendar": ["favorite", "back", "share", "home"],
-        "clock": ["top", "share", "home"],
-        "camera": ["top", "favorite", "back"]
+        "clock":    ["top", "share", "home"],
+        "camera":   ["top", "favorite", "back"]
     };
+    var FUNCTIONS = {
+        "top":      function(){
+                        return true;
+                    },
+        "back":     function(){
+                        window.dispatchEvent(new CustomEvent("holdhome")); 
+                        return true;
+                    },
+        "home":     function(){
+                        window.dispatchEvent(new CustomEvent("home")); 
+                        return true;
+                    },
+        "favorite": function(){
+                        return true;
+                    },
+        "share":    function(){
+                        window.dispatchEvent(new CustomEvent("sleep")); 
+                        return true;
+                    }
+    }
     
     var stage = 0;
 
@@ -290,14 +310,7 @@
                 if(mouseover){
                     console.log(currentId);
                     navigator.vibrate(50);
-
-                    //Implement Functions
-                    if(currentId == "back"){
-                        window.dispatchEvent(new CustomEvent("holdhome")); 
-                    }
-                    else {
-                        window.dispatchEvent(new CustomEvent(currentId));
-                    }
+                    FUNCTIONS[currentId]();
 
                     setTimeout(function(){
                         document.getElementById(currentId).className = document.getElementById(currentId).className.split('hover')[0];
