@@ -17,7 +17,8 @@
         "settings": ["top", "favorite", "back", "share", "home"],
         "calendar": ["favorite", "back", "share", "home"],
         "clock":    ["top", "share", "home"],
-        "camera":   ["top", "favorite", "back"]
+        "camera":   ["top", "favorite", "back"],
+        "website":  ["top", "favorite", "back", "home"]
     };
     var FUNCTIONS = {
         "top":      function(){
@@ -113,10 +114,15 @@
                 
                 var app = window.wrappedJSObject.StackManager.getCurrent();
                 var opt = "";
-                if(app == null) opt = "home";
+                if(app == null) {
+                    opt = "home";
+                }
+                else if(app[Object.keys(app)[0]].includes('http')) {
+                    opt = "website";
+                }
                 else {
                     opt = app[Object.keys(app)[0]].split('app://')[1].split('.')[0];
-                    if(OPTIONS[opt].length == 0) opt = "home";
+                    if(OPTIONS[opt] == null) opt = "home";
                 }
                 
                 this.menu.removeItemAll();
