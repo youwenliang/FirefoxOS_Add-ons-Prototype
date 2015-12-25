@@ -14,6 +14,7 @@
     };
     var OPTIONS = {
         "home":     ["task", "back", "home"],
+        "website":     ["task", "back", "home"]
     };
     var FUNCTIONS = {
         "task":      function(){
@@ -21,6 +22,10 @@
                         return true;
                     },
         "back":     function(){
+                         var oldApp = window.wrappedJSObject.StackManager.getCurrent();
+                         window.wrappedJSObject.StackManager.goPrev();
+                         var newApp = window.wrappedJSObject.StackManager.getCurrent();
+                         if (newApp == oldApp) window.dispatchEvent(new CustomEvent("home"));
                         return true;
                     },
         "home":     function(){
